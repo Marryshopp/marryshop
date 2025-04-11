@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slayshop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8e1f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #ffadd8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+            position: relative;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        header nav ul li {
+            margin: 0 20px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        header nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .search-container input {
+            padding: 10px;
+            width: 250px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 2px solid #ffadd8;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            border: 2px solid #ffadd8;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .product-card h3 {
+            color: #ff5ba7;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .product-card p {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #ff5ba7;
+            color: white;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        .pagination button:hover {
+            background-color: #ff3399;
+        }
+
+        footer {
+            background-color: #ffadd8;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Flower background decoration */
+        header::before {
+            content: "🌸";
+            font-size: 3rem;
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            opacity: 0.6;
+        }
+
+        /* Modal form style */
+        #purchase-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            z-index: 1000;
+        }
+
+        #purchase-form input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ff5ba7;
+        }
+
+        #purchase-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff5ba7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #purchase-form button:hover {
+            background-color: #ff3399;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Shop Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Parts</a></li>
+                <li><a href="#">All Products</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search Products..." oninput="searchProducts()">
+    </div>
+
+    <section id="product-list" class="product-container">
+        <!-- Example Products with Price and Image -->
+        <!-- You can repeat the product card below to reach 100 products -->
+        <div class="product-card" onclick="openPurchaseForm('Home Product 1', 20)">
+            <img src="img/téléchargement (6).jpg"Product 1">
+            <h3>socks</h3>
+            <p>Available in tree colors</p>
+            <p> price: 100 DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Home Product 2', 25)">
+            <img src="img/téléchargement (1).jpg" alt="Product 2">
+            <h3>samba shoes</h3>
+            <p>Available in tree colors</p>
+            <p>price: 3000 DA</p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Home Product 3', 15)">
+            <img src="img/téléchargement.jpg" alt="Product 3">
+            <h3>Simple classic pants </h3>
+            <p>Available in six colors</p>
+            <p>price: 3000 DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 1', 30)">
+            <img src="img/téléchargement (2).jpg" alt="Part Product 1">
+            <h3>simple t-shirt</h3>
+            <p> availabel in four</p>
+            <p>price: 1000 DA</p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (5).jpg" alt="Part Product 2">
+            <h3>sweater pant</h3>
+            <p>for evrydays</p>
+            <p>price: 2000 DA</p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (3).jpg" alt="Part Product 2">
+            <h3>simple t-shirt </h3>
+            <p>Available in tree colors</p>
+            <p>price: 600 DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/shannon lynch.jpg" alt="Part Product 2">
+            <h3>converse shoes </h3>
+            <p>Available in tree colors</p>
+            <p>price: 2000 DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (7).jpg" alt="Part Product 2">
+            <h3>glasses </h3>
+            <p>Available in tree colors</p>
+            <p>price: 1200 DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/white maxi skirt.jpg" alt="Part Product 2">
+            <h3>white maxi skirt </h3>
+            <p>Available in one color</p>
+            <p>price: 2500 DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (4).jpg" alt="Part Product 2">
+            <h3>sweater jackets </h3>
+            <p>Available in one color</p>
+            <p>price: 2800DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (8).jpg" alt="Part Product 2">
+            <h3>headphone </h3>
+            <p>Available in four colors</p>
+            <p>price: 2000DA </p>
+        </div>
+
+
+
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (9).jpg" alt="Part Product 2">
+            <h3>campus sheos </h3>
+            <p>Available in tree colors</p>
+            <p>price: 2500DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (10).jpg" alt="Part Product 2">
+            <h3> sweater </h3>
+            <p>Available in tree colors</p>
+            <p>price: 2500DA </p>
+        </div>
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (11).jpg" alt="Part Product 2">
+            <h3> classic shirt</h3>
+            <p>Available in two colors</p>
+            <p>price: 3500DA </p>
+        </div>
+        
+
+
+
+
+
+        <div class="product-card" onclick="openPurchaseForm('Part Product 2', 40)">
+            <img src="img/téléchargement (12).jpg"Part Product 2">
+            <h3> classic bag</h3>
+            <p>Available in tree colors</p>
+            <p>price: 1500DA </p>
+        </div>
+        
+
+
+
+
+
+
+
+
+
+
+        <!-- Add more products as needed (up to 100) -->
+    </section>
+
+    <div class="pagination" id="pagination">
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Shop Website</p>
+    </footer>
+
+    <!-- Modal for purchase form -->
+    <div class="overlay" id="overlay" onclick="closePurchaseForm()"></div>
+    <div id="purchase-form">
+        <h3>Order Form</h3>
+        <form id="order-form">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <label for="surname">Surname</label>
+            <input type="text" id="surname" placeholder="Enter your surname" required>
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" placeholder="Enter quantity" required>
+            <label for="size">Size</label>
+            <input type="text" id="size" placeholder="Enter size (e.g., S, M, L)" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="Enter your phone number" required>
+            <button type="submit">Submit Order</button>
+        </form>
+    </div>
+
+    <script>
+        function searchProducts() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                const productName = card.querySelector('h3').innerText.toLowerCase();
+                if (productName.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function openPurchaseForm(productName, price) {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('purchase-form').style.display = 'block';
+            document.getElementById('order-form').onsubmit = function (e) {
+                e.preventDefault();
+                const quantity = document.getElementById('quantity').value;
+                const size = document.getElementById('size').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+
+                alert(`Thank you for your order of ${quantity} ${productName} (Size: ${size}). Your email: ${email}, Phone: ${phone}.`);
+                closePurchaseForm();
+            };
+        }
+
+        function closePurchaseForm() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('purchase-form').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
